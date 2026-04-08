@@ -1,0 +1,7 @@
+---
+# handlers file for ansible-mysql-prod
+
+- name: Restart MySql
+  service:
+    name: mysql
+    state: restarted

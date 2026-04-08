@@ -1,0 +1,8 @@
+---
+
+- name: Setup MySQL Server (Production Ready)
+  hosts: mysql_servers
+  become: yes
+
+  roles:
+    - mysql-prod-provision

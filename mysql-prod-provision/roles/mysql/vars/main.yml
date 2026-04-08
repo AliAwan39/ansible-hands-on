@@ -1,0 +1,10 @@
+---
+# vars file for ansible-mysql-prod
+
+bind-address: 0.0.0.0 
+# its prefer to restrict it to some private network like "10.0.%"
+
+mysql_root_password: "Root@123"
+my_app_database: "my_app_db"
+my_app_user: "app_user"
+my_app_user_password: "StrongPassword123!"

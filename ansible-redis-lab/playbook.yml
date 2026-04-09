@@ -1,0 +1,8 @@
+---
+
+- name: Configure Redis Server
+  hosts: all
+  become: yes
+
+  roles:
+    - redis 

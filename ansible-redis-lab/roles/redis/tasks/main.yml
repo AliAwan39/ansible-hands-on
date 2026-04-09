@@ -1,0 +1,35 @@
+---
+# tasks file for ansible-redis-lab
+
+- name: Test Connectivity
+  ping:
+
+- name: Install redis server
+  apt:
+    name: redis-server
+    state: present
+    update_cache: yes
+
+- name: Configure Redis
+  template:
+    src: redis.cnf.j2
+    dest: /etc/redis/redis.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Redis
+
+- name: Start & Enable Redis
+  service:
+    name: redis-server
+    state: started
+    enabled: yes
+
+- name: Validate Redis Auth + write
+  command: redis-cli -a {{redis_password}} set ansible_test OK
+  register: redis_ping
+  changed_when: false
+
+- debug:
+    msg: "{{redis_ping.stdout}}"
+

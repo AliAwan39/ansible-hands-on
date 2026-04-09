@@ -1,0 +1,9 @@
+---
+# vars file for ansible-redis-lab
+
+redis_bind: '127.0.0.1'
+redis_port: '6379'
+redis_password: 'StrongPassword123!'
+redis_maxmemory: "256mb"
+redis_maxmemory_policy: "allkeys-lru"
+redis_appendonly: "yes"

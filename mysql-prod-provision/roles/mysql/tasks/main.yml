@@ -6,27 +6,50 @@
     name: mysql-server
     state: present
     update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: install Mysql Server
+  yum:
+    name: mariadb-server
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "RedHat" 
 
 - name: Ensure Mysql Running
   service:
     name: mysql
     state: started
     enabled: yes
+  when: ansible_os_family == "Debian"
+
+- name: Ensure MySQL Running Rocky
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+  when: ansible_os_family == "RedHat"
 
 - name: Install pymysql dependencies
   apt:
     name: python3-pymysql
     state: present
-    
+  when: ansible_os_family == "Debian"
+
+- name: install pymysql dependencies
+  yum:
+    name: python3-PyMySQL
+    state: present
+  when: ansible_os_family == "RedHat"
 
 - name: Set root user password & authentication plugin
   mysql_user:
     name: root
     host: localhost
     password: "{{mysql_root_password}}"
-    plugin: mysql_native_password
-    login_unix_socket: /var/run/mysqld/mysqld.sock
-
+    login_user: root
+    login_password: "{{mysql_root_password}}"
+    check_implicit_admin: yes
+  
 - name: Remove anonymous user
   mysql_user:
     name: ''
@@ -52,7 +75,7 @@
 
 - name: Flush Privileges
   mysql_query:
-    name: FLUSH PRIVILEGES
+    query: FLUSH PRIVILEGES
     login_user: root
     login_password: "{{mysql_root_password}}"
 
